@@ -347,19 +347,21 @@ async def handle_call_tool(
                 raise ValueError("Missing arguments")
 
             AppleScriptHandler.assign_project(arguments["task"], arguments["project"])
+            return [types.TextContent(type="text", text="success")]
 
         if name == "assign-area":
             if not arguments:
                 raise ValueError("Missing arguments")
 
             AppleScriptHandler.assign_area(arguments["task"], arguments["area"])
+            return [types.TextContent(type="text", text="success")]
 
         if name == "set-tags":
             if not arguments:
                 raise ValueError("Missing arguments")
-            logger.debug(arguments)
 
             AppleScriptHandler.set_tags(arguments["task"], arguments["tags"])
+            return [types.TextContent(type="text", text="success")]
 
         raise ValueError(f"Unknown tool: {name}")
 
