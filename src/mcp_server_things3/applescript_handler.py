@@ -226,33 +226,16 @@ class AppleScriptHandler:
         """
         Retrieves the selected todos in Things3 using AppleScript.
         """
-        script = '''
-            tell application "Things3"
-                set todoList to selected to dos
-                set todoJSON to "["
-
-                repeat with t in todoList
-                    set todoTitle to name of t
-                    set todoNotes to ""
-                    if notes of t is not missing value then
-                        set todoNotes to notes of t
-                    end if
-
-                    set todoJSON to todoJSON & "{\\"title\\": \\"" & todoTitle & "\\"," & ¬
-                        "\\"notes\\": \\"" & todoNotes & "\\"},"
-                end repeat
-
-                if length of todoJSON > 1 then
-                    set todoJSON to text 1 thru -2 of todoJSON
-                end if
-                set todoJSON to todoJSON & "]"
-
-                return todoJSON
-            end tell
-        '''
+        script_path = 'scripts/get_current_selected_todos.applescript'
+        with open(script_path, 'r', encoding='utf-8') as f:
+            script = f.read()
 
         result = AppleScriptHandler.run_script(script)
-        return json.loads(result)
+        logger.info(f"Selected todos: {result}")
+        try:
+            return json.loads(result)
+        except json.JSONDecodeError:
+            logger.error(f"Failed to decode JSON: {result}")
 
     @staticmethod
     def assign_project(task: str, project: str) -> None:
