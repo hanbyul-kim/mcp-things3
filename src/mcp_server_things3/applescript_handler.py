@@ -230,6 +230,10 @@ class AppleScriptHandler:
         with open(script_path, 'r', encoding='utf-8') as f:
             script = f.read()
 
+        script_path = 'scripts/json_escape.applescript'
+        with open(script_path, 'r', encoding='utf-8') as f:
+            script += "\n\n" + f.read()
+
         result = AppleScriptHandler.run_script(script)
         logger.info(f"Selected todos: {result}")
         try:
