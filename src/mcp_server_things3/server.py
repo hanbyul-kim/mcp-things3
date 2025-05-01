@@ -337,7 +337,7 @@ async def handle_call_tool(
 
             response = ["Selected todos in Things3:"]
             for todo in todos:
-                title = (todo.get("title", "Untitled Area")).strip()
+                title = (todo.get("title", "Untitled todo")).strip()
                 response.append(f"\n• {title}")
 
             return [types.TextContent(type="text", text="\n".join(response))]
