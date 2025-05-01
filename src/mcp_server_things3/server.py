@@ -338,9 +338,12 @@ async def handle_call_tool(
             response = ["Selected todos in Things3:"]
             for todo in todos:
                 title = (todo.get("title", "Untitled todo")).strip()
-                response.append(f"\n• {title}")
-
-            return [types.TextContent(type="text", text="\n".join(response))]
+                content = todo.get("notes", "")
+                response.append(f"\n# {title}\n")
+                response.append(content)
+            text = "\n".join(response)
+            logger.debug(text)
+            return [types.TextContent(type="text", text=text)]
 
         if name == "assign-project":
             if not arguments:
